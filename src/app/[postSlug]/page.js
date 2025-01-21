@@ -6,6 +6,16 @@ import styles from "./postSlug.module.css";
 import { loadBlogPost } from "@/helpers/file-helpers";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
+export async function generateMetadata({ params }) {
+  const { postSlug: slug } = await params;
+  const blogPost = await loadBlogPost(slug);
+
+  return {
+    title: blogPost.frontmatter.title,
+    description: blogPost.frontmatter.abstract,
+  };
+}
+
 async function BlogPost({ params }) {
   const { postSlug: slug } = await params;
   const blogPost = await loadBlogPost(slug);
